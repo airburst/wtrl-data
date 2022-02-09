@@ -1,0 +1,22 @@
+{
+  "name": "wtrl-data",
+  "version": "0.1.0",
+  "description": "Fetch data from WTRL Racing",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.mjs"
+  },
+  "keywords": [],
+  "author": "Mark Fairhurst",
+  "license": "ISC",
+  "dependencies": {
+    "dayjs": "^1.10.7",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "fs": "^0.0.1-security",
+    "https": "^1.0.0",
+    "node-fetch": "^3.2.0",
+    "xlsx": "^0.18.0"
+  }
+}
