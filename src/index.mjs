@@ -27,18 +27,24 @@ const getData = async (race) => {
   );
 
   const results = await Promise.all(fetchPromises);
-  const emptyRecords = results.reduce(
-    (prev, cur) => (cur.data.length === 0 ? (prev += 1) : prev),
-    0
-  );
 
-  console.log({ total: results.length, emptyRecords });
+  // Filter out empty records (no data)
+  const resultsWithData = results.filter((r) => r.data?.length > 0);
 
-  writeFile(`race-${race}-results.json`, JSON.stringify(results));
+  console.log({
+    total: results.length,
+    goodRecords: resultsWithData.length,
+    emptyRecords: results.length - resultsWithData.length,
+  });
 
-  const { teamData, riderData } = transformResults(results);
+  await writeFile(`race-${race}-results.json`, JSON.stringify(resultsWithData));
 
-  await doWtrlExport({ stage: race, results: transformResults(results) });
+  // const { teamData, riderData } = transformResults(resultsWithData);
+
+  await doWtrlExport({
+    stage: race,
+    results: transformResults(resultsWithData),
+  });
 };
 
-getData(5);
+getData(1);
