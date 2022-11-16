@@ -16,14 +16,14 @@ const writeFile = (filename, content) => {
   });
 };
 
-const getData = async (race) => {
+const getData = async ({ race, season }) => {
   const wtrlApi = new WtrlApi();
 
   await wtrlApi.login(WTRL_USER, WTRL_PASSWORD);
 
   const divisionList = getDivisions();
   const fetchPromises = divisionList.map((division) =>
-    wtrlApi.getData({ division, race })
+    wtrlApi.getData({ division, race, season })
   );
 
   const results = await Promise.all(fetchPromises);
@@ -47,4 +47,4 @@ const getData = async (race) => {
   });
 };
 
-getData(1);
+getData({ season: 8, race: 2 });

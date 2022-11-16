@@ -35,7 +35,7 @@ export class WtrlApi {
     return this.performRequest(xFormBody);
   }
 
-  async getData({ season = 7, race = 1, division }) {
+  async getData({ season = 8, race = 1, division }) {
     const { div, region, cat, mix } = division;
     return fetch(
       `${BASE_URL}?competition=zrl&do=results&season=${season}&race=${race}&division=${div}`,
