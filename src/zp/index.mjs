@@ -1,7 +1,11 @@
-import fetch from "node-fetch";
+import "dotenv/config";
+import ZPApi from "./ZPApi.mjs";
+import { makeViewMap, transformResult } from "./transform.mjs";
+import { writeToExcel, writeFile } from "./writeFiles.mjs";
 
-const BASE_URL = "https://zwiftpower.com/cache3/results";
-
+/**
+ * Copy options from Chrome Devtools and paste below
+ */
 const options = {
   headers: {
     accept: "application/json, text/javascript, */*; q=0.01",
@@ -25,17 +29,22 @@ const options = {
   method: "GET",
 };
 
-export class ZPApi {
-  async getData({ race }) {
-    return fetch(`${BASE_URL}/${race}_zwift.json?_=${new Date().getTime()}`, {
-      body: null,
-      method: "GET",
-      ...options,
-    })
-      .then((res) => res.json())
-      .then((data) => data)
-      .catch((err) => console.error(err));
-  }
-}
+const getData = async (race) => {
+  // Copy fetch cookie from website
+  const zpApi = new ZPApi(race, options);
+  const { viewResults, zwiftResults } = await zpApi.getData();
 
-export default ZPApi;
+  console.log("🚀 ~ Results:", zwiftResults?.data?.length);
+  writeFile(`zp-${race}-results.json`, JSON.stringify(zwiftResults));
+  writeFile(`zp-view-${race}-results.json`, JSON.stringify(viewResults));
+
+  const viewMap = makeViewMap(viewResults);
+  const cleanResults = zwiftResults.data.map((result) =>
+    transformResult(result, viewMap)
+  );
+
+  await writeToExcel(race, cleanResults);
+};
+
+getData("3190428");
+// getData("3563534");
