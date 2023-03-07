@@ -4,3 +4,4 @@ node_modules
 
 *.xlsx
 race*.json
+zp*.json

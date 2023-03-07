@@ -46,5 +46,6 @@ const getData = async (race) => {
   await writeToExcel(race, cleanResults);
 };
 
-getData("3190428");
+// getData("3190428");
 // getData("3563534");
+getData("3565244");
