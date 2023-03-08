@@ -28,7 +28,7 @@ export const makeViewMap = (viewResults) => {
 };
 
 export const transformResult = (result, viewMap) => {
-  console.log("🚀 ~ Transform zwift id:", result.zwid);
+  // console.log("🚀 ~ Transform zwift id:", result.zwid);
   if (!result) {
     return;
   }
