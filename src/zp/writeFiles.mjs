@@ -1,6 +1,8 @@
 import fs from "fs";
 import Workbook from "../Export/Excel.mjs";
 
+const FOLDER = "files";
+
 export const writeToExcel = (race, results) =>
   new Promise(async (resolve, reject) => {
     const reportName = `results-zp-${race}.xlsx`;
@@ -10,7 +12,7 @@ export const writeToExcel = (race, results) =>
       await workbook.addSheet("Race Results", results);
 
       // Save to local file system
-      await workbook.save(reportName);
+      await workbook.save(`${FOLDER}/${reportName}`);
 
       resolve();
     } catch (e) {
@@ -22,7 +24,7 @@ export const writeToExcel = (race, results) =>
   });
 
 export const writeFile = (filename, content) => {
-  fs.writeFile(`${process.cwd()}/${filename}`, content, (err) => {
+  fs.writeFile(`${process.cwd()}/${FOLDER}/${filename}`, content, (err) => {
     if (err) {
       console.error(err);
       return;
